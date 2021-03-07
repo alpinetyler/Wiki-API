@@ -29,9 +29,25 @@ app.get("/articles", function(req, res){
       res.send(foundArticles)
     }else{
       res.send(err);
-    }  
+    }
   });
 });
+
+app.post("/articles", function(req, res){
+
+  const newArticle = new Article({
+    title: req.body.title,
+    content: req.body.content
+  });
+
+  newArticle.save(function(err){
+    if(!err){
+      res.send("Successfully added a new article")
+    } else {
+      res.send(err);
+    }
+  });
+})
 
 app.listen(3011, function() {
   console.log("Server started on port 3011");
