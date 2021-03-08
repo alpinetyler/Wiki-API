@@ -79,7 +79,7 @@ app.route("/articles/:articleTitle")
 })
 
 .put(function(req, res){
-  Article.update(
+  Article.updateOne(
     {title: req.params.articleTitle},
     {title: req.body.title, content: req.body.content},
     //{overwrite: true},
@@ -94,9 +94,9 @@ app.route("/articles/:articleTitle")
 .patch(function(req, res){
 
 
-  Article.update(
+  Article.updateOne(
     {title: req.params.articleTitle},
-    {$Set:req.body},
+    {$set:req.body},
     function(err){
       if(!err){
         res.send("Successfully updated article.");
@@ -105,7 +105,22 @@ app.route("/articles/:articleTitle")
       }
     }
   );
+})
+
+.delete(function(req, res){
+
+  Article.deleteOne(
+    {title: req.params.articleTitle},
+    function(err){
+    if(!err){
+      res.send("Successfully deleted the corresponding article.");
+    } else {
+      res.send(err);
+    }
+  });
 });
+
+
 
 
 app.listen(3011, function() {
